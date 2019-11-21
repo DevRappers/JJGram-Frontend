@@ -2,21 +2,60 @@ import React, { useState } from 'react';
 import AuthPresenter from './AuthPresenter';
 import useInput from '../../Hooks/useInput';
 import { useMutation } from 'react-apollo-hooks';
-import { LOG_IN } from './AuthQueries';
+import { LOG_IN, CREATE_ACCOUNT } from './AuthQueries';
+import { toast } from 'react-toastify';
 
 export default () => {
 	const [ action, setAction ] = useState('logIn');
 	const username = useInput('');
 	const firstName = useInput('');
 	const lastName = useInput('');
+	const secret = useInput('');
 	const email = useInput('');
 
-	const [ requestSecret ] = useMutation(LOG_IN, { variables: { email: email.value } });
+	const [ requestSecretMutation ] = useMutation(LOG_IN, {
+		variables: { email: email.value }
+	});
 
-	const onLogin = (e) => {
+	const [ createAccountMutation ] = useMutation(CREATE_ACCOUNT, {
+		variables: { email: email.value, name: username.value, firstName: firstName.value, lastName: lastName.value }
+	});
+
+	const onSubmit = async (e) => {
 		e.preventDefault();
-		if (email !== '') {
-			requestSecret();
+		if (action === 'logIn') {
+			if (email.value !== '') {
+				try {
+					const { data: { requestSecret } } = await requestSecretMutation();
+					if (!requestSecret) {
+						toast.error('회원가입되지 않은 이메일 주소 입니다. 회원가입이 필요합니다.');
+						setTimeout(() => setAction('signUp'), 2000);
+					} else {
+						toast.success('이메일로 발송된 시크릿코드를 확인해주세요.');
+						setAction('confirm');
+					}
+				} catch (e) {
+					toast.error("Can't request secret, try again");
+				}
+			} else {
+				toast.error('Email주소를 입력해주세요');
+			}
+		} else if (action === 'signUp') {
+			if (email.value !== '' && username.value !== '' && firstName !== '' && lastName !== '') {
+				try {
+					const { data: { createAccount } } = await createAccountMutation();
+					if (!createAccount) {
+						toast.error("Can't create account");
+					} else {
+						toast.success('회원가입이 완료되었습니다. 로그인 해주세요.');
+						setTimeout(() => setAction('logIn'), 2000);
+					}
+				} catch (e) {
+					toast.error(e.message);
+				}
+			} else {
+				toast.error('모든 항목을 기입해주세요.');
+			}
 		}
 	};
 
@@ -28,7 +67,8 @@ export default () => {
 			firstName={firstName}
 			lastName={lastName}
 			email={email}
-			onLogin={onLogin}
+			secret={secret}
+			onSubmit={onSubmit}
 		/>
 	);
 };
