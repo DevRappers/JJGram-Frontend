@@ -72,17 +72,19 @@ export default ({ action, username, firstName, lastName, email, secret, setActio
 					</form>
 				)}
 			</Form>
-			<StateChanger>
-				{action === 'logIn' ? (
-					<div>
-						계정이 없으신가요? <Link onClick={() => setAction('signUp')}>가입하기</Link>
-					</div>
-				) : (
-					<div>
-						계정이 있으신가요? <Link onClick={() => setAction('logIn')}>로그인</Link>
-					</div>
-				)}
-			</StateChanger>
+			{action !== 'confirm' && (
+				<StateChanger>
+					{action === 'logIn' ? (
+						<div>
+							계정이 없으신가요? <Link onClick={() => setAction('signUp')}>가입하기</Link>
+						</div>
+					) : (
+						<div>
+							계정이 있으신가요? <Link onClick={() => setAction('logIn')}>로그인</Link>
+						</div>
+					)}
+				</StateChanger>
+			)}
 		</Wrapper>
 	);
 };

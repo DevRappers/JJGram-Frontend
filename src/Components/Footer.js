@@ -26,7 +26,7 @@ export default () => (
 	<Footer>
 		<List>
 			<ListItem>
-				<Link href="#">INSTAGRAM 정보</Link>
+				<Link href="#">JJGRAM 정보</Link>
 			</ListItem>
 			<ListItem>
 				<Link href="#">지원</Link>
