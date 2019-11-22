@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
@@ -46,17 +47,26 @@ const Form = styled(Box)`
     }
 `;
 
-export default ({ action, username, firstName, lastName, email, secret, setAction, onSubmit }) => {
+export default ({ action, username, firstName, lastName, email, secret, setAction, onSubmit}) => {
 	return (
 		<Wrapper>
 			<Form>
 				{action === 'logIn' && (
+					<>
+					<Helmet>
+						<title>Log In | JJgram</title>
+				  	</Helmet>
 					<form onSubmit={onSubmit}>
 						<Input placeholder={'이메일 주소'} {...email} type="email" />
 						<Button text={'로그인'} />
 					</form>
+					</>
 				)}
 				{action === 'signUp' && (
+					<>
+					<Helmet>
+						<title>Sign Up | JJgram</title>
+				  	</Helmet>
 					<form onSubmit={onSubmit}>
 						<Input placeholder={'성'} {...firstName} />
 						<Input placeholder={'이름'} {...lastName} />
@@ -64,12 +74,18 @@ export default ({ action, username, firstName, lastName, email, secret, setActio
 						<Input placeholder={'사용자 이름'} {...username} />
 						<Button text={'가입'} />
 					</form>
+					</>
 				)}
 				{action === 'confirm' && (
+					<>
+					<Helmet>
+            			<title>Confirm Secret | JJgram</title>
+          			</Helmet>
 					<form onSubmit={onSubmit}>
 						<Input placeholder="시크릿코드" required {...secret} />
 						<Button text={'확인'} />
 					</form>
+					</>
 				)}
 			</Form>
 			{action !== 'confirm' && (
