@@ -41,7 +41,7 @@ export default () => {
 						setAction('confirm');
 					}
 				} catch (e) {
-					toast.error("Can't request secret, try again");
+					toast.error('시크릿 코드를 요청할 수 없습니다. 다시 시도 해주세요.');
 				}
 			} else {
 				toast.error('Email주소를 입력해주세요');
@@ -51,7 +51,7 @@ export default () => {
 				try {
 					const { data: { createAccount } } = await createAccountMutation();
 					if (!createAccount) {
-						toast.error("Can't create account");
+						toast.error('계정을 생성할 수 없습니다.');
 					} else {
 						toast.success('회원가입이 완료되었습니다. 로그인 해주세요.');
 						setTimeout(() => setAction('logIn'), 2000);
@@ -74,7 +74,7 @@ export default () => {
 						throw Error();
 					}
 				} catch (e) {
-					toast.error("Can't confirm secret, check again");
+					toast.error('시크릿코드를 확인할 수 없습니다. 다시 시도 해주세요.');
 				}
 			}
 		}
