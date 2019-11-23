@@ -57,7 +57,7 @@ export default ({ action, username, firstName, lastName, email, secret, setActio
 						<title>Log In | JJgram</title>
 				  	</Helmet>
 					<form onSubmit={onSubmit}>
-						<Input placeholder={'이메일 주소'} {...email} type="email" />
+						<Input placeholder={'이메일 주소'} value={email.value} onChange={email.onChange} type="email" />
 						<Button text={'로그인'} />
 					</form>
 					</>
@@ -68,10 +68,10 @@ export default ({ action, username, firstName, lastName, email, secret, setActio
 						<title>Sign Up | JJgram</title>
 				  	</Helmet>
 					<form onSubmit={onSubmit}>
-						<Input placeholder={'성'} {...firstName} />
-						<Input placeholder={'이름'} {...lastName} />
-						<Input placeholder={'이메일 주소'} {...email} type="email" />
-						<Input placeholder={'사용자 이름'} {...username} />
+						<Input placeholder={'성'} value={firstName.value} onChange={firstName.onChange}/>
+						<Input placeholder={'이름'} value={lastName.value} onChange={lastName.onChange} />
+						<Input placeholder={'이메일 주소'} value={email.value} onChange={email.onChange} type="email" />
+						<Input placeholder={'사용자 이름'} value={username.value} onChange={username.onChange} />
 						<Button text={'가입'} />
 					</form>
 					</>
@@ -82,7 +82,7 @@ export default ({ action, username, firstName, lastName, email, secret, setActio
             			<title>Confirm Secret | JJgram</title>
           			</Helmet>
 					<form onSubmit={onSubmit}>
-						<Input placeholder="시크릿코드" required {...secret} />
+						<Input placeholder="시크릿코드" required value={secret.value} onChange={secret.onChange} />
 						<Button text={'확인'} />
 					</form>
 					</>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
 import FatText from '../FatText';
 import Avatar from '../Avatar';
-import { HeartFull, HeartEmpty, Comment } from '../Icons';
+import { HeartFull, HeartEmpty, Comment as CommentIcon } from '../Icons';
 
 const Post = styled.div`
 	${(props) => props.theme.whiteBox};
@@ -79,7 +79,16 @@ const Textarea = styled(TextareaAutosize)`
     }
 `;
 
-export default ({
+const Comments = styled.ul`margin-top: 10px;`;
+
+const Comment = styled.li`
+	margin-bottom: 7px;
+	span {
+		margin-right: 5px;
+	}
+`;
+
+const PostPresenter = ({
 	user: { name, avatar },
 	location,
 	files,
@@ -88,29 +97,69 @@ export default ({
 	createdAt,
 	newComment,
 	currentItem,
-	toggleLike
-}) => (
-	<Post>
-		<Header>
-			<Avatar size="sm" url={avatar} />
-			<UserColumn>
-				<FatText text={name} />
-				<Location>{location}</Location>
-			</UserColumn>
-		</Header>
-		<Files>
-			{files && files.map((file, index) => <File key={file.id} src={file.url} showing={index === currentItem} />)}
-		</Files>
-		<Meta>
-			<Buttons>
-				<Button onClick={toggleLike}>{isLiked ? <HeartFull /> : <HeartEmpty />}</Button>
-				<Button>
-					<Comment />
-				</Button>
-			</Buttons>
-			<FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
-			<Timestamp>{createdAt}</Timestamp>
-			<Textarea placeholder="Add a comment..." {...newComment} />
-		</Meta>
-	</Post>
-);
+	toggleLike,
+	onKeyPress,
+	comments,
+	selfComments
+}) => {
+	const today = new Date(createdAt);
+	const dateString = today.toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+	const dayName = today.toLocaleDateString('ko-KR', {
+		weekday: 'long'
+	});
+	return (
+		<Post>
+			<Header>
+				<Avatar size="sm" url={avatar} />
+				<UserColumn>
+					<FatText text={name} />
+					<Location>{location}</Location>
+				</UserColumn>
+			</Header>
+			<Files>
+				{files &&
+					files.map((file, index) => <File key={file.id} src={file.url} showing={index === currentItem} />)}
+			</Files>
+			<Meta>
+				<Buttons>
+					<Button onClick={toggleLike}>{isLiked ? <HeartFull /> : <HeartEmpty />}</Button>
+					<Button>
+						<CommentIcon />
+					</Button>
+				</Buttons>
+				<FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
+				{comments && (
+					<Comments>
+						{comments.map((comment) => (
+							<Comment key={comment.id}>
+								<FatText text={comment.user.name} />
+								{comment.text}
+							</Comment>
+						))}
+						{selfComments.map((comment) => (
+							<Comment key={comment.id}>
+								<FatText text={comment.user.name} />
+								{comment.text}
+							</Comment>
+						))}
+					</Comments>
+				)}
+				<Timestamp>
+					{dateString} {dayName}
+				</Timestamp>
+				<Textarea
+					placeholder="Add a comment..."
+					value={newComment.value}
+					onChange={newComment.onChange}
+					onKeyPress={onKeyPress}
+				/>
+			</Meta>
+		</Post>
+	);
+};
+
+export default PostPresenter;
