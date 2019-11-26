@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import FatText from '../FatText';
 import Avatar from '../Avatar';
@@ -11,6 +12,9 @@ const Post = styled.div`
 	max-width: 600px;
 	margin-bottom: 25px;
 	user-select: none;
+	a {
+		color: inherit;
+	}
 `;
 
 const Header = styled.header`
@@ -18,6 +22,8 @@ const Header = styled.header`
 	display: flex;
 	align-items: center;
 `;
+
+const Caption = styled.div`margin: 10px 0px;`;
 
 const UserColumn = styled.div`margin-left: 10px;`;
 
@@ -100,7 +106,8 @@ const PostPresenter = ({
 	toggleLike,
 	onKeyPress,
 	comments,
-	selfComments
+	selfComments,
+	caption
 }) => {
 	const today = new Date(createdAt);
 	const dateString = today.toLocaleDateString('ko-KR', {
@@ -116,7 +123,9 @@ const PostPresenter = ({
 			<Header>
 				<Avatar size="sm" url={avatar} />
 				<UserColumn>
-					<FatText text={name} />
+					<Link to={`/${name}`}>
+						<FatText text={name} />
+					</Link>
 					<Location>{location}</Location>
 				</UserColumn>
 			</Header>
@@ -132,6 +141,9 @@ const PostPresenter = ({
 					</Button>
 				</Buttons>
 				<FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
+				<Caption>
+					<FatText text={name} /> {caption}
+				</Caption>
 				{comments && (
 					<Comments>
 						{comments.map((comment) => (
