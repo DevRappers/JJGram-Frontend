@@ -13,8 +13,19 @@ React + Hooks + GraphQL + apollo를 활용해 만든 인스타그램 클론 프�
 로그인(이메일 인증) 및 회원가입(페이스북,이메일,구글)
 
 <div>
-    <img src="screenshot/1.png" width="400"/>
-    <img src="screenshot/2.png" width="400"/>
-    <img src="screenshot/3.png" width="400"/>
-    <img src="screenshot/4.png" width="400"/>
+    <img src="screenshot/1.png" width="300"/>
+    <img src="screenshot/3.png" width="300"/>
+    <img src="screenshot/4.png" width="300"/>
+</div>
+
+### 😯 Feed + Post + Profile
+첫 화면으로 만나는 Feed화면과 검색을 통해 User, Post를 찾고 상세페이지를 확인하는 것과 profile
+
+<div>
+    <img src="screenshot/6.png" width="400"/>
+    <img src="screenshot/7.png" width="400"/>
+</div>
+<div>
+    <img src="screenshot/8.png" width="400"/>
+    <img src="screenshot/9.png" width="400"/>
 </div>
